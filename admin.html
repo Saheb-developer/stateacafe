@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>SKA TEA CAFE · Admin Command Center</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/clash-display');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --deep-space: #030614;
+      --night-sky: #0a0f1f;
+      --card-bg: #111827;
+      --warm-amber: #fbbf24;
+      --amber-glow: #f59e0b;
+      --electric-orange: #fb923c;
+      --glass-border: rgba(251, 191, 36, 0.15);
+      --text-dim: #94a3b8;
+      --text-bright: #f1f5f9;
+      --success-green: #10b981;
+      --danger-red: #ef4444;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--deep-space);
+      color: #fff;
+      line-height: 1.5;
+      overflow-x: hidden;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* Prevent horizontal scroll */
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    *::selection {
+      background: var(--warm-amber);
+      color: var(--deep-space);
+    }
+
+    /* Login Page - Fully Responsive */
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: radial-gradient(circle at 30% 50%, rgba(251, 191, 36, 0.1), transparent 50%);
+      width: 100%;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      max-width: 420px;
+      width: 100%;
+      padding: clamp(1.5rem, 5vw, 2.5rem);
+      border-radius: 2rem;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 30px 50px -20px #000;
+    }
+
+    .login-card h2 {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+      background: linear-gradient(135deg, #fff, var(--warm-amber));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.3rem;
+    }
+
+    .login-sub {
+      color: #94a3b8;
+      margin-bottom: 1.8rem;
+      border-left: 4px solid var(--warm-amber);
+      padding-left: 1rem;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    }
+
+    .input-field {
+      margin-bottom: 1.2rem;
+    }
+
+    .input-field label {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #cbd5e1;
+      margin-bottom: 0.3rem;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: clamp(0.8rem, 3vw, 1rem) clamp(1rem, 3vw, 1.2rem);
+      background: #1f2a41;
+      border: 1px solid #334155;
+      border-radius: 2rem;
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      color: #fff;
+      transition: 0.2s;
+    }
+
+    .input-field input:focus {
+      outline: none;
+      border-color: var(--warm-amber);
+      box-shadow: 0 0 0 3px #fbbf2420;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: clamp(0.8rem, 3vw, 1rem);
+      background: linear-gradient(135deg, var(--warm-amber), var(--electric-orange));
+      border: none;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 3vw, 1.1rem);
+      color: var(--deep-space);
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px var(--warm-amber);
+    }
+
+    /* Admin Panel Header with Hamburger - FIXED */
+    .admin-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(3, 6, 20, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0.8rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .admin-logo {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--warm-amber));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: nowrap;
+    }
+
+    .admin-badge {
+      background: #1f2a41;
+      padding: 0.4rem 1.2rem;
+      border-radius: 2rem;
+      border: 1px solid var(--glass-border);
+      font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+      white-space: nowrap;
+    }
+
+    /* Stats Grid - Fully Responsive */
+    .stats-grid {
+      max-width: 1400px;
+      margin: 1.5rem auto;
+      padding: 0 5%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 1rem;
+      background: linear-gradient(135deg, #fbbf2420, #f9731620);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--warm-amber);
+      flex-shrink: 0;
+    }
+
+    .stat-info h3 {
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .stat-info p {
+      color: #94a3b8;
+      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      text-transform: uppercase;
+    }
+
+    /* Bookings Container - Responsive */
+    .bookings-container {
+      max-width: 1400px;
+      margin: 1.5rem auto;
+      padding: 0 5%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .booking-card {
+      background: var(--card-bg);
+      border-radius: 1.2rem;
+      padding: clamp(1rem, 3vw, 1.5rem);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      transition: 0.2s;
+      gap: 1rem;
+    }
+
+    .booking-card:hover {
+      border-color: var(--warm-amber);
+      box-shadow: 0 10px 30px -15px var(--warm-amber);
+    }
+
+    .booking-info {
+      flex: 2;
+      min-width: 280px;
+    }
+
+    .booking-id {
+      font-family: monospace;
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      font-weight: 700;
+      background: #1f2a41;
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--glass-border);
+      word-break: break-word;
+    }
+
+    .booking-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: #cbd5e1;
+      font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+    }
+
+    .booking-details i {
+      color: var(--warm-amber);
+      width: 18px;
+    }
+
+    .status-badge {
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-left: 0.5rem;
+    }
+
+    .status-pending {
+      background: #fbbf2420;
+      color: #fbbf24;
+      border: 1px solid #fbbf24;
+    }
+
+    .status-accepted {
+      background: #10b98120;
+      color: #10b981;
+      border: 1px solid #10b981;
+    }
+
+    .status-rejected {
+      background: #ef444420;
+      color: #ef4444;
+      border: 1px solid #ef4444;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 480px) {
+      .btn-action {
+        padding: 0.5rem 1rem;
+        font-size: 0.7rem;
+      }
+    }
+
+    .btn-accept {
+      background: #10b981;
+      color: #fff;
+    }
+
+    .btn-reject {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .btn-delete {
+      background: #f97316;
+      color: #fff;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: var(--card-bg);
+      border-radius: 2rem;
+      border: 2px dashed var(--glass-border);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: var(--warm-amber);
+      margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+      color: var(--text-dim);
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: #5f6c86;
+      border-top: 1px solid #1f2a41;
+      font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 768px) {
+      .booking-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .action-buttons {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .booking-details {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .admin-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.8rem 3%;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <!-- Login Div -->
+  <div id="loginDiv" class="login-container">
+    <div class="login-card">
+      <h2>command center</h2>
+      <div class="login-sub"><i class="fas fa-shield-alt" style="color: #fbbf24;"></i> SKA TEA CAFE · admin</div>
+      <div class="input-field">
+        <label>Email</label>
+        <input type="email" id="adminEmail" placeholder="admin@skatea.com" value="admin@skatea.com">
+      </div>
+      <div class="input-field">
+        <label>Password</label>
+        <input type="password" id="adminPass" placeholder="••••••••" value="skate123">
+      </div>
+      <button class="login-btn" id="loginBtn"><i class="fas fa-arrow-right-to-bracket"></i> Access Dashboard</button>
+      <p style="text-align: center; margin-top: 1.2rem; color: #5f6c86; font-size: 0.7rem;">demo: any email/pass (firebase auth)</p>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminPanel" style="display: none;">
+    <div class="admin-header">
+      <div class="admin-logo"><i class="fas fa-crown" style="color: #fbbf24;"></i> SKA·ADMIN</div>
+      <div class="admin-badge"><i class="fas fa-user-shield"></i> Authenticated</div>
+    </div>
+
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+        <div class="stat-info">
+          <h3 id="totalBookings">0</h3>
+          <p>Total</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-info">
+          <h3 id="pendingCount">0</h3>
+          <p>Pending</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-info">
+          <h3 id="acceptedCount">0</h3>
+          <p>Accepted</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+        <div class="stat-info">
+          <h3 id="rejectedCount">0</h3>
+          <p>Rejected</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="bookingsContainer" class="bookings-container">
+      <!-- Bookings will appear here dynamically -->
+      <div class="empty-state">
+        <i class="fas fa-skating"></i>
+        <h3>No bookings yet</h3>
+        <p>New bookings will appear here in real-time</p>
+      </div>
+    </div>
+
+    <footer>
+      <i class="fas fa-lock"></i> Secure real-time panel · SKA TEA CAFE
+    </footer>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // Your exact Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDgQX-Cl0l7vENuwjrvB7W3CaohexySZnQ",
+      authDomain: "sta-tea-cafe.firebaseapp.com",
+      projectId: "sta-tea-cafe",
+      storageBucket: "sta-tea-cafe.firebasestorage.app",
+      messagingSenderId: "299429256054",
+      appId: "1:299429256054:web:5948a5092ae12942517857",
+      measurementId: "G-S1HEQ2P9LR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // DOM Elements
+    const loginDiv = document.getElementById('loginDiv');
+    const adminPanel = document.getElementById('adminPanel');
+    const loginBtn = document.getElementById('loginBtn');
+    const emailInput = document.getElementById('adminEmail');
+    const passInput = document.getElementById('adminPass');
+    const bookingsContainer = document.getElementById('bookingsContainer');
+    const totalSpan = document.getElementById('totalBookings');
+    const pendingSpan = document.getElementById('pendingCount');
+    const acceptedSpan = document.getElementById('acceptedCount');
+    const rejectedSpan = document.getElementById('rejectedCount');
+
+    let unsubscribeBookings = null;
+
+    // Login Handler
+    loginBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const pass = passInput.value.trim();
+      signInWithEmailAndPassword(auth, email, pass).catch(err => {
+        Swal.fire("Login Failed", err.message, "error");
+      });
+    });
+
+    // Auth State
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginDiv.style.display = 'none';
+        adminPanel.style.display = 'block';
+        if (unsubscribeBookings) unsubscribeBookings();
+        setupRealtimeBookings();
+      } else {
+        loginDiv.style.display = 'flex';
+        adminPanel.style.display = 'none';
+        if (unsubscribeBookings) {
+          unsubscribeBookings();
+          unsubscribeBookings = null;
+        }
+      }
+    });
+
+    // Realtime Listener (YOUR EXACT DATA STRUCTURE)
+    function setupRealtimeBookings() {
+      const bookingsQuery = query(collection(db, "bookings"), orderBy("created", "desc"));
+      unsubscribeBookings = onSnapshot(bookingsQuery, (snapshot) => {
+        let total = 0, pending = 0, accepted = 0, rejected = 0;
+        let bookings = [];
+
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          total++;
+          if (data.status === 'Pending') pending++;
+          else if (data.status === 'Accepted') accepted++;
+          else if (data.status === 'Rejected') rejected++;
+          bookings.push({ id: doc.id, ...data });
+        });
+
+        // Update stats
+        totalSpan.textContent = total;
+        pendingSpan.textContent = pending;
+        acceptedSpan.textContent = accepted;
+        rejectedSpan.textContent = rejected;
+
+        // Render bookings
+        if (bookings.length === 0) {
+          bookingsContainer.innerHTML = `<div class="empty-state"><i class="fas fa-skating"></i><h3>No bookings yet</h3><p>New bookings will appear here in real-time</p></div>`;
+          return;
+        }
+
+        let html = '';
+        bookings.forEach(b => {
+          const statusClass = b.status === 'Pending' ? 'status-pending' : b.status === 'Accepted' ? 'status-accepted' : 'status-rejected';
+          const timeSlot = b.time || b.slot || '';
+          const cleanPhone = (b.phone || '').replace(/\D/g, '');
+          
+          html += `
+            <div class="booking-card" data-id="${b.id}">
+              <div class="booking-info">
+                <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span class="booking-id"><i class="fas fa-ticket"></i> ${b.bookingId || 'N/A'}</span>
+                  <span class="status-badge ${statusClass}">${b.status || 'Pending'}</span>
+                </div>
+                <div class="booking-details">
+                  <span><i class="fas fa-user"></i> ${b.name || '—'}</span>
+                  <span><i class="fas fa-phone"></i> ${b.phone || '—'}</span>
+                  <span><i class="fas fa-tag"></i> ${b.type || '—'}</span>
+                  <span><i class="fas fa-calendar"></i> ${b.date || ''} ${timeSlot}</span>
+                </div>
+              </div>
+              <div class="action-buttons">
+                <button class="btn-action btn-accept" onclick="handleAction('${b.id}','Accepted','${cleanPhone}','${b.name || ''}','${b.bookingId || ''}','${b.type || ''}','${b.date || ''}','${timeSlot}')">
+                  <i class="fas fa-check"></i> Accept
+                </button>
+                <button class="btn-action btn-reject" onclick="handleAction('${b.id}','Rejected','${cleanPhone}','${b.name || ''}','${b.bookingId || ''}','${b.type || ''}','${b.date || ''}','${timeSlot}')">
+                  <i class="fas fa-times"></i> Reject
+                </button>
+                <button class="btn-action btn-delete" onclick="deleteBooking('${b.id}')">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
+          `;
+        });
+        bookingsContainer.innerHTML = html;
+      });
+    }
+
+    // Global action handlers (YOUR EXACT WHATSAPP LOGIC)
+    window.handleAction = async (docId, status, phone, name, bookingId, type, date, time) => {
+      try {
+        await updateDoc(doc(db, "bookings", docId), { status });
+        
+        if (phone && phone.length > 6) {
+          const message = `Hello ${name}! Your booking ${bookingId} for ${type} on ${date} ${time} has been ${status} ✅. Thank you for choosing SKA TEA CAFE.`;
+          window.open(`https://wa.me/977${phone}?text=${encodeURIComponent(message)}`, '_blank');
+          Swal.fire("Success", `Booking ${status} & WhatsApp sent`, "success");
+        } else {
+          Swal.fire("Success", `Booking marked as ${status}`, "success");
+        }
+      } catch (e) {
+        Swal.fire("Error", "Failed to update", "error");
+      }
+    };
+
+    window.deleteBooking = async (docId) => {
+      const result = await Swal.fire({
+        title: 'Delete Booking?',
+        text: "This action cannot be undone",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#f97316',
+        confirmButtonText: 'Delete'
+      });
+      if (result.isConfirmed) {
+        try {
+          await deleteDoc(doc(db, "bookings", docId));
+          Swal.fire("Deleted", "Booking removed", "success");
+        } catch (e) {
+          Swal.fire("Error", "Could not delete", "error");
+        }
+      }
+    };
+
+    // Handle Enter key on login
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && loginDiv.style.display !== 'none') {
+        loginBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
