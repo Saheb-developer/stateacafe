@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>SKA TEA CAFE · Rautahat's First Skate & Dine</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Clash Display + Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/clash-display');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --deep-space: #030614;
+      --night-sky: #0a0f1f;
+      --card-bg: #111827;
+      --warm-amber: #fbbf24;
+      --amber-glow: #f59e0b;
+      --electric-orange: #fb923c;
+      --glass-border: rgba(251, 191, 36, 0.15);
+      --text-dim: #94a3b8;
+      --text-bright: #f1f5f9;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--deep-space);
+      color: #fff;
+      line-height: 1.5;
+      overflow-x: hidden;
+      width: 100%;
+      position: relative;
+    }
+
+    /* Prevent horizontal scroll */
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    *::selection {
+      background: var(--warm-amber);
+      color: var(--deep-space);
+    }
+
+    .bg-noise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(251, 191, 36, 0.03) 0%, transparent 30%),
+                  radial-gradient(circle at 80% 70%, rgba(249, 115, 22, 0.03) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    /* Header with Hamburger - FIXED RESIZING */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(3, 6, 20, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0.8rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    .logo {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 0%, var(--warm-amber) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+      z-index: 1001;
+      white-space: nowrap;
+      display: flex;
+  align-items: center;
+  z-index: 1001;
+    }
+    
+
+.logo-img {
+  height: clamp(35px, 6vw, 50px);  /* Responsive height */
+  width: auto;                      /* Maintain aspect ratio */
+  max-width: 180px;                  /* Maximum width */
+  object-fit: contain;               /* Prevent distortion */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  transition: transform 0.2s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.02);  /* Subtle hover effect */
+}
+
+/* Dark mode support (for when image loads) */
+@media (prefers-color-scheme: dark) {
+  .logo-img {
+    filter: brightness(1) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .logo-img {
+    height: 35px;
+    max-width: 140px;
+  }
+}
+
+/* If you want text fallback when image doesn't load */
+.logo-img.error-fallback {
+  content: '';
+  background: linear-gradient(135deg, #fff 0%, var(--warm-amber) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  display: inline-block;
+}
+    
+    
+  .footer-logo {
+  margin-bottom: 1rem;
+}
+
+.footer-logo-img {
+  height: clamp(35px, 5vw, 45px);
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  filter: brightness(0.9) drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+    /* Hamburger Icon */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1001;
+      padding: 0.5rem;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 2px;
+      background: var(--warm-amber);
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 3px;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Navigation Menu */
+    .nav-links {
+      display: flex;
+      gap: clamp(0.5rem, 1.5vw, 2rem);
+      align-items: center;
+      transition: 0.3s;
+    }
+
+    .nav-links a {
+      color: var(--text-bright);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: clamp(0.7rem, 1.8vw, 0.95rem);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      border-bottom-color: var(--warm-amber);
+      color: var(--warm-amber);
+    }
+
+    /* Mobile Responsive - FIXED */
+    @media (max-width: 900px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 350px;
+        height: 100vh;
+        background: rgba(3, 6, 20, 0.98);
+        backdrop-filter: blur(12px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 2rem;
+        transition: 0.3s ease-in-out;
+        border-left: 1px solid var(--glass-border);
+        z-index: 1000;
+        box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 1.1rem;
+        white-space: normal;
+        width: 100%;
+        text-align: center;
+        padding: 0.7rem;
+      }
+
+      .nav-links a:hover {
+        background: rgba(251, 191, 36, 0.1);
+        border-radius: 50px;
+        border-bottom: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links {
+        width: 85%;
+        padding: 1.5rem;
+      }
+      
+      .nav-links a {
+        font-size: 1rem;
+      }
+    }
+
+    /* Floating Social - Hide on mobile */
+    .social-float {
+      position: fixed;
+      left: 15px;
+      bottom: 50%;
+      transform: translateY(50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      z-index: 90;
+    }
+
+    .social-float a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      transition: 0.2s;
+    }
+
+    @media (max-width: 900px) {
+      .social-float {
+        display: none;
+      }
+    }
+
+    /* Hero Section - FIXED */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      isolation: isolate;
+      padding: 4rem 5%;
+      width: 100%;
+    }
+
+    .hero-video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      opacity: 0.50;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0%, var(--deep-space) 100%);
+      z-index: -1;
+    }
+
+    .hero-content {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-content h1 {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(2.2rem, 8vw, 6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #fff, var(--warm-amber), #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.3));
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero-content p {
+      font-size: clamp(1rem, 3.5vw, 1.8rem);
+      color: #e2e8f0;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      animation: fadeInUp 1s ease 0.2s both;
+      padding: 0 1rem;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease 0.4s both;
+      padding: 0 1rem;
+    }
+
+    .btn {
+      padding: clamp(0.7rem, 2.5vw, 1.2rem) clamp(1.2rem, 4vw, 3rem);
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media (max-width: 480px) {
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--warm-amber), var(--electric-orange));
+      color: var(--deep-space);
+      box-shadow: 0 10px 25px -5px var(--warm-amber);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 35px -5px var(--warm-amber);
+    }
+
+    .btn-outline {
+      border: 2px solid var(--warm-amber);
+      color: #fff;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    .btn-outline:hover {
+      background: var(--warm-amber);
+      color: var(--deep-space);
+    }
+
+    /* Sections - FIXED */
+    section {
+      padding: clamp(2.5rem, 6vw, 5rem) 5%;
+      position: relative;
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    .section-title {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: clamp(1.5rem, 4vw, 3rem);
+      position: relative;
+      padding: 0 1rem;
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, #fff, var(--warm-amber));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      border-bottom: 3px solid var(--warm-amber);
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* About Section - FIXED */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 450px), 1fr));
+      gap: clamp(1.5rem, 4vw, 3rem);
+      align-items: center;
+    }
+
+    .about-content h3 {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      margin-bottom: 1rem;
+      color: var(--warm-amber);
+    }
+
+    .about-content p {
+      color: var(--text-dim);
+      font-size: clamp(0.9rem, 2.2vw, 1rem);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 800;
+      color: var(--warm-amber);
+    }
+
+    .stat-label {
+      color: var(--text-dim);
+      font-size: clamp(0.65rem, 1.8vw, 0.8rem);
+      text-transform: uppercase;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 1.5rem;
+      border: 2px solid var(--glass-border);
+    }
+
+    .experience-badge {
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      background: linear-gradient(135deg, var(--warm-amber), var(--electric-orange));
+      padding: 1rem;
+      border-radius: 50%;
+      width: clamp(80px, 20vw, 120px);
+      height: clamp(80px, 20vw, 120px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--deep-space);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .experience-badge span {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .experience-badge small {
+      font-size: clamp(0.6rem, 1.8vw, 0.8rem);
+    }
+
+    @media (max-width: 768px) {
+      .experience-badge {
+        width: 70px;
+        height: 70px;
+        bottom: -5px;
+        right: -5px;
+      }
+    }
+
+    /* Menu Section - FIXED */
+    .menu-categories {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      padding: 0 0.5rem;
+    }
+
+    .category-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 600;
+      font-size: clamp(0.65rem, 2vw, 0.9rem);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 480px) {
+      .category-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.6rem;
+      }
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 1rem;
+    }
+
+    .menu-item {
+      background: var(--card-bg);
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      border: 1px solid var(--glass-border);
+      transition: 0.3s;
+    }
+
+    .menu-img {
+      width: clamp(60px, 15vw, 80px);
+      height: clamp(60px, 15vw, 80px);
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: var(--deep-space);
+      flex-shrink: 0;
+    }
+
+    .menu-desc h4 {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .menu-desc p {
+      color: var(--text-dim);
+      font-size: clamp(0.7rem, 2vw, 0.85rem);
+      margin-bottom: 0.2rem;
+    }
+
+    .price {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      font-weight: 700;
+      color: var(--warm-amber);
+    }
+
+    .badge {
+      background: var(--warm-amber);
+      color: var(--deep-space);
+      font-size: 0.55rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 50px;
+      font-weight: 800;
+    }
+
+    /* Skating Zone - FIXED */
+    .skating-showcase {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      padding: clamp(1.2rem, 4vw, 2.5rem);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(1.2rem, 4vw, 2.5rem);
+    }
+
+    .skating-text {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .skating-text h3 {
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      color: var(--warm-amber);
+      margin-bottom: 0.8rem;
+    }
+
+    .skating-text p {
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+    }
+
+    .price-tag {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border: 2px solid var(--warm-amber);
+      border-radius: 50px;
+      margin: 1rem 0;
+    }
+
+    .skating-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+    }
+
+    .feature-item i {
+      color: var(--warm-amber);
+      font-size: 1rem;
+    }
+
+    /* Booking Forms - FIXED */
+    .booking-section {
+      background: linear-gradient(145deg, #0f172a, #0a0f1c);
+    }
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 1.2rem;
+    }
+
+    .booking-card {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      padding: clamp(1.2rem, 4vw, 2rem);
+      border: 1px solid var(--glass-border);
+    }
+
+    .booking-card h3 {
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      margin-bottom: 1.2rem;
+      color: var(--warm-amber);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .input-group {
+      margin-bottom: 0.8rem;
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: clamp(0.7rem, 2.5vw, 1rem) clamp(0.8rem, 3vw, 1.2rem);
+      background: #1f2a41;
+      border: 1px solid #334155;
+      border-radius: 50px;
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      color: #fff;
+    }
+
+    .booking-btn {
+      width: 100%;
+      padding: clamp(0.7rem, 2.5vw, 1rem);
+      background: linear-gradient(135deg, var(--warm-amber), var(--electric-orange));
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      color: var(--deep-space);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .status-area {
+      max-width: 500px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    #statusResult {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #1f2a41;
+      border-radius: 1rem;
+      border: 1px solid var(--glass-border);
+      font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+      word-break: break-word;
+    }
+
+    /* Gallery - FIXED */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Reviews - FIXED */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: 1.2rem;
+    }
+
+    .review-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 1.2rem;
+      border-left: 4px solid var(--warm-amber);
+    }
+
+    .stars {
+      color: var(--warm-amber);
+      margin-bottom: 0.8rem;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    }
+
+    .review-card p {
+      color: var(--text-dim);
+      font-style: italic;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+      font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+    }
+
+    /* Contact Grid - FIXED */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-card {
+      background: var(--card-bg);
+      padding: 1.2rem;
+      border-radius: 1.2rem;
+      text-align: center;
+      border: 1px solid var(--glass-border);
+    }
+
+    .contact-card i {
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      color: var(--warm-amber);
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-card h4 {
+      font-size: clamp(1rem, 3vw, 1.1rem);
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-card p {
+      color: var(--text-dim);
+      font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+    }
+
+    /* Map - FIXED */
+    .map-container {
+      border-radius: 1.2rem;
+      overflow: hidden;
+      border: 2px solid var(--glass-border);
+      margin: 1.5rem 0;
+      height: clamp(250px, 40vw, 350px);
+      width: 100%;
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Footer - FIXED */
+    footer {
+      background: #030614;
+      padding: clamp(1.5rem, 5vw, 3rem) 5%;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: clamp(1rem, 4vw, 2rem);
+    }
+
+    .footer-logo {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      background: linear-gradient(135deg, #fff, var(--warm-amber));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-about {
+      color: var(--text-dim);
+      font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+      line-height: 1.5;
+    }
+
+    .footer-links h4 {
+      color: #fff;
+      margin-bottom: 0.8rem;
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+    }
+
+    .footer-links a {
+      display: block;
+      color: var(--text-dim);
+      text-decoration: none;
+      margin-bottom: 0.4rem;
+      font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .social-links a {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: #1f2a41;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid #1f2a41;
+      color: var(--text-dim);
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+    }
+
+    /* WhatsApp Float */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 55px;
+      height: 55px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px #25D36680;
+      z-index: 99;
+      transition: 0.2s;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    .whatsapp-float img {
+      width: 30px;
+      height: auto;
+      filter: brightness(0) invert(1);
+    }
+
+    @media (max-width: 480px) {
+      .whatsapp-float {
+        width: 45px;
+        height: 45px;
+        bottom: 15px;
+        right: 15px;
+      }
+      .whatsapp-float img {
+        width: 25px;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="bg-noise"></div>
+  
+  <!-- Floating Social Bar -->
+  <div class="social-float">
+    <a href="https://www.tiktok.com/@skateacafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+    <a href="https://www.instagram.com/skatea.cafe" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/skateacafe" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://wa.me/9779817205795" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  </div>
+
+  <header>
+<!-- WITH THIS: -->
+<div class="logo">
+  <img src="logo.png" 
+       alt="SKA TEA CAFE" 
+       class="logo-img"
+       onerror="this.onerror=null; this.src='https://via.placeholder.com/180x50/111827/fbbf24?text=SKA+TEA+CAFE';">
+</div>
+
+    
+    <!-- Hamburger Icon -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#about">Our Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#skating">Skating</a>
+      <a href="#booking">Book Now</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#location">Location</a>
+      <a href="admin.html" target="_blank"><i class="fas fa-lock"></i> Admin</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <video class="hero-video-bg" autoplay muted loop playsinline>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>WHERE SKATING<br>MEETS DINING</h1>
+      <p>Rautahat's First Skate & Dine Cafe</p>
+      <div class="btn-group">
+        <a href="#booking" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Reserve Your Spot</a>
+        <a href="#menu" class="btn btn-outline"><i class="fas fa-utensils"></i> Explore Menu</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="container">
+    <h2 class="section-title"><span>Our Story</span></h2>
+    <div class="about-grid">
+      <div class="about-content">
+        <h3>More Than Just a Cafe</h3>
+        <p>Founded in 2024, SKA TEA CAFE is Rautahat's first and only venue that combines a professional skating rink with a premium cafe experience. Located in Chandrapur-05, we've created a space where families, friends, and couples can enjoy something truly unique.</p>
+        <p>Our covered outdoor rink features string lights and a sound system, while our cafe serves authentic Nepali chai, fast food, and speciality beverages. Whether you're a skating pro or trying it for the first time, we've got you covered with safety gear and friendly staff.</p>
+        
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Happy Skaters</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">25+</div>
+            <div class="stat-label">Menu Items</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4.8★</div>
+            <div class="stat-label">Google Rating</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800" alt="SKA TEA CAFE night view" loading="lazy">
+        <div class="experience-badge">
+          <span>2024</span>
+          <small>Est.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Section -->
+  <section id="menu" class="container">
+    <h2 class="section-title"><span>Our Menu</span></h2>
+    
+    <div class="menu-categories">
+      <button class="category-btn active" data-category="all">All</button>
+      <button class="category-btn" data-category="tea">Tea & Coffee</button>
+      <button class="category-btn" data-category="food">Fast Food</button>
+      <button class="category-btn" data-category="combo">Combos</button>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-item" data-category="tea">
+        <div class="menu-img">☕</div>
+        <div class="menu-desc">
+          <h4>Special Masala Chai <span class="badge">Bestseller</span></h4>
+          <p>Fresh ginger, cardamom, Assam tea</p>
+          <div class="price">रू 45</div>
+        </div>
+      </div>
+
+      <div class="menu-item" data-category="tea">
+        <div class="menu-img">🧋</div>
+        <div class="menu-desc">
+          <h4>Iced Caramel Latte</h4>
+          <p>Espresso, caramel, chilled milk</p>
+          <div class="price">रू 120</div>
+        </div>
+      </div>
+
+      <div class="menu-item" data-category="tea">
+        <div class="menu-img">🥤</div>
+        <div class="menu-desc">
+          <h4>Mint Lemonade</h4>
+          <p>Fresh mint, lemon, soda</p>
+          <div class="price">रू 90</div>
+        </div>
+      </div>
+
+      <div class="menu-item" data-category="food">
+        <div class="menu-img">🍔</div>
+        <div class="menu-desc">
+          <h4>Veg Cheese Burger <span class="badge">Popular</span></h4>
+          <p>Veg patty, cheese, lettuce, sauce</p>
+          <div class="price">रू 150</div>
+        </div>
+      </div>
+
+      <div class="menu-item" data-category="food">
+        <div class="menu-img">🍟</div>
+        <div class="menu-desc">
+          <h4>French Fries</h4>
+          <p>Crispy fries, peri peri salt</p>
+          <div class="price">रू 90</div>
+        </div>
+      </div>
+
+      <div class="menu-item" data-category="food">
+        <div class="menu-img">🌯</div>
+        <div class="menu-desc">
+          <h4>Veg Noodles</h4>
+          <p>Hakka noodles with veggies</p>
+          <div class="price">रू 130</div>
+        </div>
+      </div>
+
+      <div class="menu-item" data-category="food">
+        <div class="menu-img">🍕</div>
+        <div class="menu-desc">
+          <h4>Margherita Pizza</h4>
+          <p>7-inch, cheese, herbs</p>
+          <div class="price">रू 220</div>
+        </div>
+      </div>
+
+      <div class="menu-item" data-category="combo">
+        <div class="menu-img">🍱</div>
+        <div class="menu-desc">
+          <h4>Skater's Combo</h4>
+          <p>Burger + Fries + Drink + 1hr Skate</p>
+          <div class="price">रू 350</div>
+          <span class="badge">Save रू 50</span>
+        </div>
+      </div>
+
+      <div class="menu-item" data-category="combo">
+        <div class="menu-img">🎊</div>
+        <div class="menu-desc">
+          <h4>Family Combo</h4>
+          <p>2 Pizza + 4 Drinks + 2hr Skate</p>
+          <div class="price">रू 800</div>
+          <span class="badge">Best Value</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skating Zone -->
+  <section id="skating" class="container">
+    <h2 class="section-title"><span>The Skating Zone</span></h2>
+    <div class="skating-showcase">
+      <div class="skating-text">
+        <h3>Roller Rink Under the Stars</h3>
+        <p>Our covered outdoor rink opens every evening with string lights and music. Perfect for all ages and skill levels.</p>
+        
+        <div class="price-tag">रू 100 / 2 Hours</div>
+        
+        <div class="skating-features">
+          <div class="feature-item"><i class="fas fa-check-circle"></i> Skate rental</div>
+          <div class="feature-item"><i class="fas fa-check-circle"></i> Safety gear</div>
+          <div class="feature-item"><i class="fas fa-check-circle"></i> Floodlights</div>
+          <div class="feature-item"><i class="fas fa-check-circle"></i> Music system</div>
+          <div class="feature-item"><i class="fas fa-check-circle"></i> Instructor</div>
+          <div class="feature-item"><i class="fas fa-check-circle"></i> Group discount</div>
+        </div>
+
+        <p style="margin-top: 1rem; color: var(--warm-amber);">
+          <i class="fas fa-clock"></i> Sessions: 4-6PM | 6-8PM | 8-10PM
+        </p>
+      </div>
+      <div class="skating-text">
+        <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=800" alt="Skating rink at night" style="width: 100%; border-radius: 1rem; border: 2px solid var(--glass-border);" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Section -->
+  <section id="booking" class="booking-section">
+    <div class="container">
+      <h2 class="section-title"><span>Make a Booking</span></h2>
+      <div class="booking-grid">
+        <!-- Table Reservation -->
+        <div class="booking-card">
+          <h3><i class="fas fa-chair"></i> Table Reservation</h3>
+          <div class="input-group">
+            <input type="text" id="r_name" placeholder="Full Name">
+          </div>
+          <div class="input-group">
+            <input type="tel" id="r_phone" placeholder="Phone Number">
+          </div>
+          <div class="input-group">
+            <input type="date" id="r_date">
+          </div>
+          <div class="input-group">
+            <input type="time" id="r_time">
+          </div>
+          <div class="input-group">
+            <input type="number" id="r_guests" placeholder="Guests" min="1" value="2">
+          </div>
+          <button class="booking-btn" id="reserveBtn">Reserve Table</button>
+        </div>
+
+        <!-- Skating Booking -->
+        <div class="booking-card">
+          <h3><i class="fas fa-skating"></i> Skating Slot</h3>
+          <div class="input-group">
+            <input type="text" id="s_name" placeholder="Full Name">
+          </div>
+          <div class="input-group">
+            <input type="tel" id="s_phone" placeholder="Phone Number">
+          </div>
+          <div class="input-group">
+            <input type="date" id="s_date">
+          </div>
+          <div class="input-group">
+            <select id="s_slot">
+              <option value="">Select Slot</option>
+              <option>4PM - 6PM</option>
+              <option>6PM - 8PM</option>
+              <option>8PM - 10PM</option>
+            </select>
+          </div>
+          <button class="booking-btn" id="skateBtn">Book Skating</button>
+        </div>
+      </div>
+
+      <!-- Status Check -->
+      <div style="margin-top: 2rem;">
+        <h3 style="text-align: center; font-size: clamp(1.2rem, 4vw, 1.5rem); margin-bottom: 1rem; color: var(--warm-amber);">Check Your Booking</h3>
+        <div class="status-area">
+          <div class="input-group">
+            <input type="text" id="checkId" placeholder="Enter Booking ID (e.g., SKA-20260227-123)">
+          </div>
+          <button class="booking-btn" id="checkBtn" style="width: auto; padding: 0.8rem 1.5rem;">Check Status</button>
+          <div id="statusResult"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="container">
+    <h2 class="section-title"><span>Moments at SKA</span></h2>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" alt="Skating at night" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400" alt="Cafe interior" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=400" alt="Skating action" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400" alt="Food" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section id="reviews" class="container">
+    <h2 class="section-title"><span>Customer Reviews</span></h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Finally something unique in Rautahat! The skating rink is well-maintained, and their masala chai is the best."</p>
+        <div class="reviewer">Ankit Sharma</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"My kids love this place. They provide safety gear and helped my 6-year-old learn. Genius concept!"</p>
+        <div class="reviewer">Sneha Gupta</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★½</div>
+        <p>"Best night spot in Chandrapur. String lights, music, vibe - perfect for dates."</p>
+        <div class="reviewer">Roshan Yadav</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location Section -->
+  <section id="location" class="map-section">
+    <div class="container">
+      <h2 class="section-title"><span>Visit Us</span></h2>
+      
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3569.234567890123!2d85.271294!3d26.887219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDUzJzE0LjAiTiA4NcKwMTYnMTYuNyJF!5e0!3m2!1sen!2snp!4v1234567890" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <i class="fas fa-clock"></i>
+          <h4>Hours</h4>
+          <p>2–11PM (Tue Closed)</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-phone-alt"></i>
+          <h4>Call</h4>
+          <p>+977 9817205795</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Address</h4>
+          <p>Chandrapur-05, Rautahat</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+<!-- Footer Logo Only -->
+<div class="footer-logo">
+  <img src="logo.png" 
+       alt="SKA TEA CAFE" 
+       class="footer-logo-img"
+       loading="lazy"
+       onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'45\' viewBox=\'0 0 160 45\'%3E%3Crect width=\'160\' height=\'45\' fill=\'%23030614\'/%3E%3Ctext x=\'15\' y=\'28\' font-family=\'Arial\' font-size=\'18\' font-weight=\'bold\' fill=\'%23fbbf24\'%3ESKA TEA%3C/text%3E%3Ctext x=\'15\' y=\'40\' font-family=\'Arial\' font-size=\'12\' fill=\'%2394a3b8\'%3ECAFE%3C/text%3E%3C/svg%3E';">
+</div>
+        <p class="footer-about">Rautahat's first skate & dine experience. Where wheels meet waffles.</p>
+        <div class="social-links">
+          <a href="https://www.tiktok.com/@skateacafe" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.instagram.com/skatea.cafe" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/skateacafe" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://wa.me/9779817205795" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#about">Our Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#skating">Skating</a>
+        <a href="#booking">Book Now</a>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Support</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <a href="#privacy">Privacy</a>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Follow</h4>
+        <a href="https://www.tiktok.com/@skateacafe" target="_blank">TikTok</a>
+        <a href="https://www.instagram.com/skatea.cafe" target="_blank">Instagram</a>
+        <a href="https://www.facebook.com/skateacafe" target="_blank">Facebook</a>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>© 2026 SKA TEA CAFE · Chandrapur-05, Rautahat</p>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/9779817205795" target="_blank" class="whatsapp-float">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  </a>
+  <!-- Hamburger Menu JavaScript -->
+  <script>
+    
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    function toggleMenu() {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+    }
+
+    function closeMenu() {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+        closeMenu();
+      }
+    });
+  </script>
+
+  <!-- Firebase + YOUR EXACT FUNCTIONALITY -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDgQX-Cl0l7vENuwjrvB7W3CaohexySZnQ",
+      authDomain: "sta-tea-cafe.firebaseapp.com",
+      projectId: "sta-tea-cafe",
+      storageBucket: "sta-tea-cafe.firebasestorage.app",
+      messagingSenderId: "299429256054",
+      appId: "1:299429256054:web:5948a5092ae12942517857",
+      measurementId: "G-S1HEQ2P9LR"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const today = new Date().toISOString().split("T")[0];
+    const rDate = document.getElementById('r_date');
+    const sDate = document.getElementById('s_date');
+    if(rDate) rDate.min = today;
+    if(sDate) sDate.min = today;
+
+    function isValidPhone(phone){ return /^[0-9]{7,15}$/.test(phone); }
+    
+    function generateBookingId(){
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      const rand = Math.floor(Math.random()*900+100);
+      return `SKA-${y}${m}${day}-${rand}`;
+    }
+
+    document.getElementById('reserveBtn')?.addEventListener('click', async()=>{
+      const name = document.getElementById('r_name').value.trim();
+      const phone = document.getElementById('r_phone').value.trim();
+      const date = document.getElementById('r_date').value;
+      const time = document.getElementById('r_time').value;
+      const guests = document.getElementById('r_guests').value;
+      
+      if(!name||!phone||!date||!time||!guests){ 
+        Swal.fire("Error","Fill all fields","error"); 
+        return; 
+      }
+      if(!isValidPhone(phone)){ 
+        Swal.fire("Error","Invalid phone number","error"); 
+        return; 
+      }
+      
+      const id = generateBookingId();
+      try{
+        await addDoc(collection(db,"bookings"), {
+          bookingId: id,
+          type: "Table",
+          name,
+          phone,
+          date,
+          time,
+          guests,
+          status: "Pending",
+          created: serverTimestamp()
+        });
+        Swal.fire("Success", `Table Reserved! Booking ID: ${id}`, "success");
+        document.getElementById('r_name').value = '';
+        document.getElementById('r_phone').value = '';
+        document.getElementById('r_date').value = '';
+        document.getElementById('r_time').value = '';
+        document.getElementById('r_guests').value = '';
+      } catch(e) { 
+        Swal.fire("Error","Failed to save booking","error"); 
+        console.error(e); 
+      }
+    });
+
+    document.getElementById('skateBtn')?.addEventListener('click', async()=>{
+      const name = document.getElementById('s_name').value.trim();
+      const phone = document.getElementById('s_phone').value.trim();
+      const date = document.getElementById('s_date').value;
+      const slot = document.getElementById('s_slot').value;
+      
+      if(!name||!phone||!date||!slot){ 
+        Swal.fire("Error","Fill all fields","error"); 
+        return; 
+      }
+      if(!isValidPhone(phone)){ 
+        Swal.fire("Error","Invalid phone number","error"); 
+        return; 
+      }
+      
+      const id = generateBookingId();
+      try{
+        await addDoc(collection(db,"bookings"), {
+          bookingId: id,
+          type: "Skating",
+          name,
+          phone,
+          date,
+          slot,
+          status: "Pending",
+          created: serverTimestamp()
+        });
+        Swal.fire("Success", `Skating Booked! Booking ID: ${id}`, "success");
+        document.getElementById('s_name').value = '';
+        document.getElementById('s_phone').value = '';
+        document.getElementById('s_date').value = '';
+        document.getElementById('s_slot').value = '';
+      } catch(e) { 
+        Swal.fire("Error","Failed to save booking","error"); 
+        console.error(e); 
+      }
+    });
+
+    document.getElementById('checkBtn')?.addEventListener('click', async()=>{
+      const id = document.getElementById('checkId').value.trim();
+      if(!id){ 
+        Swal.fire("Error","Enter Booking ID","error"); 
+        return; 
+      }
+      try{
+        const q = query(collection(db,"bookings"), where("bookingId","==",id));
+        const snapshot = await getDocs(q);
+        if(snapshot.empty){ 
+          document.getElementById('statusResult').innerHTML = "Booking ID not found.";
+          return;
+        }
+        snapshot.forEach(docSnap => {
+          const d = docSnap.data();
+          const timeSlot = d.time || d.slot || "";
+          document.getElementById('statusResult').innerHTML = `
+            <strong>Booking ID:</strong> ${d.bookingId}<br>
+            <strong>Type:</strong> ${d.type}<br>
+            <strong>Date/Time:</strong> ${d.date} ${timeSlot}<br>
+            <strong>Status:</strong> <span style="color:${d.status==='Pending'?'#fbbf24':d.status==='Accepted'?'#10b981':'#ef4444'}">${d.status}</span>
+          `;
+        });
+      } catch(err) {
+        console.error(err);
+        Swal.fire("Error","Failed to fetch status","error");
+      }
+    });
+
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const category = btn.dataset.category;
+        document.querySelectorAll('.menu-item').forEach(item => {
+          item.style.display = category === 'all' || item.dataset.category === category ? 'flex' : 'none';
+        });
+      });
+    });
+  </script>
+  
+</body>
+</html>
